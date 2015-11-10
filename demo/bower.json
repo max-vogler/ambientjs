@@ -1,0 +1,23 @@
+{
+  "name": "ambientjs-demo",
+  "authors": [
+    "Max Vogler <max.vogler@gmail.com>"
+  ],
+  "description": "",
+  "main": "",
+  "moduleType": [],
+  "homepage": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "~3.3.5",
+    "font-awesome": "~4.4.0",
+    "bootstrap-toggle": "~2.2.1"
+  }
+}

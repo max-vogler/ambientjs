@@ -1,0 +1,59 @@
+/*
+ * Ambient colors for comfortable reading at day & night
+ */
+body {
+    transition: background-color 1.5s ease-in-out, color 1.5s ease-in-out;
+    -webkit-transition: background-color 1.5s ease-in-out, color 1.5s ease-in-out;
+}
+
+.ambient-dark body {
+    background-color: black;
+    color: #ccc;
+}
+
+/*
+ * Toggle switch for day/night mode
+ */
+.container {
+    position: relative;
+}
+
+.ambient-form {
+    position: absolute;
+    top: 22px;
+    right: 1em;
+}
+
+.toggle-group {
+    transition: left 1.5s;
+    -webkit-transition: left 1.5s;
+}
+
+/*
+ * Content styles
+ */
+.container img {
+    max-width: 50%;
+    margin: 0 0 1em 1em;
+}
+
+
+/*
+ * Debug bar at the bottom of the page
+ */
+body {
+    margin-bottom: 3em;
+}
+
+#ambient-debug {
+    position: fixed;
+    bottom:0;
+    margin-bottom: 0;
+    border-radius: 0;
+    width: 100%;
+    z-index: 1;
+}
+
+#ambient-debug span {
+    font-weight: bold;
+}
