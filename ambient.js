@@ -4,7 +4,7 @@
     var html = document.getElementsByTagName('html')[0],
         brightClass = 'ambient-bright',
         darkClass = 'ambient-dark',
-        threshold = 50,
+        threshold = 30,
         lastValue = undefined,
         lastState = undefined,
         automatic = true,
@@ -63,6 +63,6 @@
                 automatic = false;
                 setState(isBright);
             }
-        });
+        };
     });
 })();
