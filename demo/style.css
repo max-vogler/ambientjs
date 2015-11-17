@@ -1,17 +1,4 @@
 /*
- * Ambient colors for comfortable reading at day & night
- */
-body {
-    transition: background-color 1.5s ease-in-out, color 1.5s ease-in-out;
-    -webkit-transition: background-color 1.5s ease-in-out, color 1.5s ease-in-out;
-}
-
-.ambient-dark body {
-    background-color: black;
-    color: #ccc;
-}
-
-/*
  * Toggle switch for day/night mode
  */
 .container {
