@@ -90,7 +90,8 @@
 
     // Listen for changes made by the user
     toggles.forEach(toggle => {
-        toggle.addEventListener("change", event => {
+        // TODO replace with addEventListener()
+        toggle.onchange = event => {
             var isBright = !event.target.checked;
 
             if (lastState !== isBright) {
