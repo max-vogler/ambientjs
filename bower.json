@@ -1,0 +1,25 @@
+{
+  "name": "ambientjs",
+  "description": "A simple ambient light detection library",
+  "main": "ambient-compiled.js",
+  "authors": [
+    "Max Vogler <max.vogler@gmail.com>"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "ambient-light",
+    "html5",
+    "device",
+    "sensor"
+  ],
+  "homepage": "https://github.com/mr-max/ambientjs",
+  "moduleType": [],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests",
+    "demo"
+  ]
+}

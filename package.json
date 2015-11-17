@@ -1,7 +1,7 @@
 {
   "name": "ambientjs",
-  "version": "0.1.0",
-  "description": "",
+  "version": "0.2.0",
+  "description": "A simple ambient light detection library",
   "main": "ambient-compiled.js",
   "dependencies": {},
   "devDependencies": {
@@ -10,5 +10,6 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Max Vogler <max.vogler@gmail.com>"
+  "author": "Max Vogler <max.vogler@gmail.com>",
+  "license": "MIT"
 }
