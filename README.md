@@ -1,9 +1,15 @@
 # ambientjs
 A simple ambient light detection library, using the ambient light sensor.
 
+# Installation
+
+```
+bower install ambientjs
+```
+
 # Usage
 ```html
-<script src="ambientjs/ambient-compiled.js"></script>
+<script src="bower_components/ambientjs/ambient-compiled.js"></script>
 ```
 
 The library adds a class to the ```<html>``` element, depening on the ambient brightness.
