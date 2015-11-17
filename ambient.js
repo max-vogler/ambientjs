@@ -10,7 +10,35 @@
         automatic = true,
         defaultState = true,
         debugElement = document.querySelector("#ambient-debug"),
-        toggles = [].slice.call(document.querySelectorAll("input[data-ambient=ambient]"));
+        toggles = [].slice.call(document.querySelectorAll("input[data-ambient=ambient]")),
+        transition = 1.5,
+        darkenFactor = 0.3,
+        svgFilter = `
+            <svg xmlns="http://www.w3.org/2000/svg">
+                <filter id="ambientjs-darken">
+                    <feComponentTransfer>
+                        <feFuncR type="linear" slope="${darkenFactor}" />
+                        <feFuncG type="linear" slope="${darkenFactor}" />
+                        <feFuncB type="linear" slope="${darkenFactor}" />
+                    </feComponentTransfer>
+                </filter>
+            </svg>`,
+        css = `
+            body {
+                transition: background-color ${transition}s ease-in-out, color ${transition}s ease-in-out;
+                -webkit-transition: background-color ${transition}s ease-in-out, color ${transition}s ease-in-out;
+            }
+
+            .ambient-dark body {
+                background-color: black;
+                color: #ccc;
+            }
+
+            .ambient-dark img.ambient {
+                -webkit-filter: url('#ambientjs-darken');
+                filter: url('#ambientjs-darken');
+            }
+        `;
 
     function isBright(value = lastValue) {
         return value >= threshold;
@@ -43,6 +71,12 @@
 
     // Initialize the page to day/night mode
     setState(defaultState);
+
+    // Add styles and svg filters to the document
+    var style = document.createElement('style');
+    style.appendChild(document.createTextNode(css));
+    document.head.appendChild(style);
+    document.write(svgFilter);
 
     // Listen for changes in ambient light
     window.addEventListener("devicelight", event => {
