@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap-theme.min.css">
     <link rel="stylesheet" href="bower_components/bootstrap-toggle/css/bootstrap-toggle.min.css">
-    <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -56,9 +56,14 @@
     <div class="ambient-form">
         <label>
             Night mode&nbsp;
-            <input type="checkbox" data-toggle="toggle" data-ambient="ambient"
-                   data-off="<i class='fa fa-sun-o'></i>"
-                   data-on="<i class='fa fa-moon-o'></i>">
+            <div class="btn-group" role="group" aria-label="...">
+                <button type="button" class="btn btn-default p-y-4 active" data-ambient="automatic">
+                    <i class="material-icons">brightness_auto</i>
+                </button>
+                <input type="checkbox" data-toggle="toggle" data-ambient="ambient"
+                       data-off="<i class='material-icons'>brightness_high</i>"
+                       data-on="<i class='material-icons'>brightness_low</i>">
+            </div>
         </label>
 
     </div>
