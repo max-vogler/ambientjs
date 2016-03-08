@@ -11,9 +11,28 @@
     right: 1em;
 }
 
+.ambient-form .btn {
+    padding-top: 3px;
+    line-height: 0;
+    padding-bottom: 3px;
+}
+
+.btn[data-ambient=automatic] {
+    opacity: 0.5;
+}
+
+.btn.active[data-ambient=automatic].active {
+    opacity: 1;
+}
+
 .toggle-group {
     transition: left 1.5s;
     -webkit-transition: left 1.5s;
+}
+
+.p-y-4 {
+    padding-top: 4px !important;
+    padding-bottom: 4px !important;
 }
 
 /*
@@ -43,4 +62,30 @@ body {
 
 #ambient-debug span {
     font-weight: bold;
+}
+
+.material-icons {
+    font-family: 'Material Icons';
+    font-weight: normal;
+    font-style: normal;
+    font-size: 24px;  /* Preferred icon size */
+    display: inline-block;
+    line-height: 1;
+    text-transform: none;
+    letter-spacing: normal;
+    word-wrap: normal;
+    white-space: nowrap;
+    direction: ltr;
+    width: 24px;
+
+    /* Support for all WebKit browsers. */
+    -webkit-font-smoothing: antialiased;
+    /* Support for Safari and Chrome. */
+    text-rendering: optimizeLegibility;
+
+    /* Support for Firefox. */
+    -moz-osx-font-smoothing: grayscale;
+
+    /* Support for IE. */
+    font-feature-settings: 'liga';
 }

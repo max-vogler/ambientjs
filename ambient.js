@@ -1,32 +1,42 @@
 'use strict';
 
-(() => {
-    var html = document.getElementsByTagName('html')[0],
-        brightClass = 'ambient-bright',
-        darkClass = 'ambient-dark',
-        threshold = 30,
-        lastValue = undefined,
-        lastState = undefined,
-        automatic = true,
-        defaultState = true,
-        debugElement = document.querySelector("#ambient-debug"),
-        toggles = [].slice.call(document.querySelectorAll("input[data-ambient=ambient]")),
-        transition = 1.5,
-        darkenFactor = 0.3,
-        svgFilter = `
+function AmbientLightJS() {
+    this.brightClass = 'ambient-bright';
+    this.darkClass = 'ambient-dark';
+    this.threshold = 5;
+    this.automatic = true;
+    this.transitionTime = 1.5;
+    this.darkenFactor = 0.3;
+
+    if(AmbientLightJS) {
+        for(var key of Object.keys(AmbientLightJS)) {
+            this[key] = AmbientLightJS[key];
+        }
+    }
+
+    var html = document.querySelector('html');
+    var debugElement = document.querySelector('#ambient-debug');
+    var toggles = [].slice.call(document.querySelectorAll('input[data-ambient=ambient]'));
+    var automaticToggles = [].slice.call(document.querySelectorAll('button[data-ambient=automatic]'));
+
+    var defaultState = true;
+    var currentState = defaultState;
+
+    var svgFilter = `
             <svg xmlns="http://www.w3.org/2000/svg">
                 <filter id="ambientjs-darken">
                     <feComponentTransfer>
-                        <feFuncR type="linear" slope="${darkenFactor}" />
-                        <feFuncG type="linear" slope="${darkenFactor}" />
-                        <feFuncB type="linear" slope="${darkenFactor}" />
+                        <feFuncR type="linear" slope="${this.darkenFactor}" />
+                        <feFuncG type="linear" slope="${this.darkenFactor}" />
+                        <feFuncB type="linear" slope="${this.darkenFactor}" />
                     </feComponentTransfer>
                 </filter>
-            </svg>`,
-        css = `
+            </svg>`;
+
+    var css = `
             body {
-                transition: background-color ${transition}s ease-in-out, color ${transition}s ease-in-out;
-                -webkit-transition: background-color ${transition}s ease-in-out, color ${transition}s ease-in-out;
+                transition: background-color ${this.transitionTime}s ease-in-out, color ${this.transitionTime}s ease-in-out;
+                -webkit-transition: background-color ${this.transitionTime}s ease-in-out, color ${this.transitionTime}s ease-in-out;
             }
 
             .ambient-dark body {
@@ -40,37 +50,50 @@
             }
         `;
 
-    function isBright(value = lastValue) {
-        return value >= threshold;
-    }
+    this.isBright = function () {
+        return this.brightness >= this.threshold;
+    };
 
-    function setState(isBright, element = html) {
-        if (isBright === lastState) {
+    this.setState = function (isBright, element = html) {
+        if (isBright === currentState) {
             return;
         }
 
-        lastState = isBright;
-        element.classList.add(isBright ? brightClass : darkClass);
-        element.classList.remove(isBright ? darkClass : brightClass);
+        element.classList.add(isBright ? this.brightClass : this.darkClass);
+        element.classList.remove(isBright ? this.darkClass : this.brightClass);
 
         toggles.forEach(toggle => {
             toggle.checked = !isBright;
             toggle.dispatchEvent(new Event('change', {bubbles: true}));
         });
 
-        debug();
-    }
+        currentState = isBright;
+        this.debug();
+    };
 
-    function debug() {
+    this.setAutomatic = function (isAutomatic) {
+        this.automatic = isAutomatic;
+
+        automaticToggles.forEach((toggle) => {
+            if(isAutomatic) {
+                toggle.classList.add('active');
+            } else {
+                toggle.classList.remove('active');
+            }
+        });
+    };
+
+    this.debug = function () {
         if (!debugElement) {
             return;
         }
 
-        debugElement.innerHTML = `{ ambient light: <span>${lastValue} lux</span>, mode: <span>${lastState ? 'day' : 'night'}</span>, threshold: <span>${threshold} lux</span>, automatic: <span>${automatic ? 'yes' : 'no'}</span> }`;
-    }
+        var context = this.isBright() ? 'day' : 'night';
+        debugElement.innerHTML = `{ context: <span>${context}</span>, ambient light: <span>${this.brightness} lux</span>, threshold: <span>${this.threshold} lux</span>, automatic: <span>${this.automatic ? 'yes' : 'no'}</span> }`;
+    };
 
     // Initialize the page to day/night mode
-    setState(defaultState);
+    this.setState(defaultState);
 
     // Add styles and svg filters to the document
     var style = document.createElement('style');
@@ -79,25 +102,34 @@
     document.write(svgFilter);
 
     // Listen for changes in ambient light
-    window.addEventListener("devicelight", event => {
-        lastValue = event.value;
-        debug();
+    window.addEventListener('devicelight', (event) => {
+        this.brightness = event.value;
+        this.debug();
 
-        if (automatic) {
-            setState(isBright());
+        if (this.automatic) {
+            this.setState(this.isBright());
         }
     });
 
     // Listen for changes made by the user
-    toggles.forEach(toggle => {
+    toggles.forEach((toggle) => {
         // TODO replace with addEventListener()
         toggle.onchange = event => {
             var isBright = !event.target.checked;
 
-            if (lastState !== isBright) {
-                automatic = false;
-                setState(isBright);
+            if (this.isBright() !== isBright) {
+                this.setAutomatic(false);
+                this.setState(isBright);
             }
         };
     });
-})();
+
+    automaticToggles.forEach((toggle) => {
+        toggle.addEventListener("click", (event) => {
+            this.setAutomatic(!this.automatic);
+            this.debug();
+        });
+    });
+}
+
+window.AmbientLightJS = new AmbientLightJS();
