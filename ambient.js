@@ -58,6 +58,7 @@ function AmbientLightJS() {
         if (isBright === currentState) {
             return;
         }
+        currentState = isBright;
 
         element.classList.add(isBright ? this.brightClass : this.darkClass);
         element.classList.remove(isBright ? this.darkClass : this.brightClass);
@@ -67,7 +68,6 @@ function AmbientLightJS() {
             toggle.dispatchEvent(new Event('change', {bubbles: true}));
         });
 
-        currentState = isBright;
         this.debug();
     };
 
@@ -76,6 +76,7 @@ function AmbientLightJS() {
 
         automaticToggles.forEach((toggle) => {
             if(isAutomatic) {
+                this.setState(this.isBright());
                 toggle.classList.add('active');
             } else {
                 toggle.classList.remove('active');
@@ -117,7 +118,7 @@ function AmbientLightJS() {
         toggle.onchange = event => {
             var isBright = !event.target.checked;
 
-            if (this.isBright() !== isBright) {
+            if (currentState !== isBright) {
                 this.setAutomatic(false);
                 this.setState(isBright);
             }
