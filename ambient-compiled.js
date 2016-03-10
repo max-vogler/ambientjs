@@ -1,7 +1,7 @@
 'use strict';
 
 function AmbientLightJS() {
-    var _this = this;
+    var _this2 = this;
 
     this.brightClass = 'ambient-bright';
     this.darkClass = 'ambient-dark';
@@ -59,6 +59,7 @@ function AmbientLightJS() {
         if (isBright === currentState) {
             return;
         }
+        currentState = isBright;
 
         element.classList.add(isBright ? this.brightClass : this.darkClass);
         element.classList.remove(isBright ? this.darkClass : this.brightClass);
@@ -68,15 +69,17 @@ function AmbientLightJS() {
             toggle.dispatchEvent(new Event('change', { bubbles: true }));
         });
 
-        currentState = isBright;
         this.debug();
     };
 
     this.setAutomatic = function (isAutomatic) {
+        var _this = this;
+
         this.automatic = isAutomatic;
 
         automaticToggles.forEach(function (toggle) {
             if (isAutomatic) {
+                _this.setState(_this.isBright());
                 toggle.classList.add('active');
             } else {
                 toggle.classList.remove('active');
@@ -104,11 +107,11 @@ function AmbientLightJS() {
 
     // Listen for changes in ambient light
     window.addEventListener('devicelight', function (event) {
-        _this.brightness = event.value;
-        _this.debug();
+        _this2.brightness = event.value;
+        _this2.debug();
 
-        if (_this.automatic) {
-            _this.setState(_this.isBright());
+        if (_this2.automatic) {
+            _this2.setState(_this2.isBright());
         }
     });
 
@@ -118,17 +121,17 @@ function AmbientLightJS() {
         toggle.onchange = function (event) {
             var isBright = !event.target.checked;
 
-            if (_this.isBright() !== isBright) {
-                _this.setAutomatic(false);
-                _this.setState(isBright);
+            if (currentState !== isBright) {
+                _this2.setAutomatic(false);
+                _this2.setState(isBright);
             }
         };
     });
 
     automaticToggles.forEach(function (toggle) {
         toggle.addEventListener("click", function (event) {
-            _this.setAutomatic(!_this.automatic);
-            _this.debug();
+            _this2.setAutomatic(!_this2.automatic);
+            _this2.debug();
         });
     });
 }
